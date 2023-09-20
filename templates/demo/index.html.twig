@@ -1,9 +1,9 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello DemoController!{% endblock %}
+{% block title %} DemoController!{% endblock %}
 
 {% block body %}
 
-    <h1>{{ 'now'|format_datetime('full', 'short', locale='fr', timezone='Europe/Paris') }}</h1>
+    <h1>{{ 'now'|format_datetime('full', 'short', timezone='Europe/Paris') }}</h1>
 
 {% endblock %}
