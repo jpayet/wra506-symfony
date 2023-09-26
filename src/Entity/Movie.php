@@ -25,7 +25,7 @@ class Movie
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups(['movie:read'])]
+    #[Groups(['movie:read', 'actor:read', 'category:read'])]
     private ?string $title = null;
 
     #[ORM\Column(length: 255)]
@@ -42,6 +42,7 @@ class Movie
 
     #[ORM\ManyToOne(inversedBy: 'movies')]
     #[ORM\JoinColumn(nullable: false)]
+    #[Groups(['movie:read'])]
     private ?Category $category = null;
 
     #[ORM\ManyToMany(targetEntity: Actor::class, inversedBy: 'movies')]
