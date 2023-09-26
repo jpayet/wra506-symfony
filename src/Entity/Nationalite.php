@@ -7,6 +7,7 @@ use App\Repository\NationaliteRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: NationaliteRepository::class)]
@@ -20,6 +21,9 @@ class Nationalite
 
     #[ORM\Column(length: 255)]
     #[Groups(['actor:read', 'actor:write'])]
+    #[Assert\NotBlank(
+        message: 'La nationalité est obligatoire'
+    )]
     private ?string $nationalite = null;
 
     #[ORM\OneToMany(mappedBy: 'nationalite', targetEntity: Actor::class)]
