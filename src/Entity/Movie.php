@@ -8,6 +8,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: MovieRepository::class)]
@@ -26,18 +27,30 @@ class Movie
 
     #[ORM\Column(length: 255)]
     #[Groups(['movie:read', 'actor:read', 'category:read'])]
+    #[Assert\NotBlank(
+        message: 'Le titre est obligatoire'
+    )]
     private ?string $title = null;
 
     #[ORM\Column(length: 255)]
     #[Groups(['movie:read'])]
+    #[Assert\NotBlank(
+        message: 'La description est obligatoire'
+    )]
     private ?string $description = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
     #[Groups(['movie:read'])]
+    #[Assert\NotBlank(
+        message: 'La date de sortie est obligatoire'
+    )]
     private ?\DateTimeInterface $releaseDate = null;
 
     #[ORM\Column]
     #[Groups(['movie:read'])]
+    #[Assert\NotBlank(
+        message: 'La durée est obligatoire'
+    )]
     private ?int $duration = null;
 
     #[ORM\ManyToOne(inversedBy: 'movies')]
