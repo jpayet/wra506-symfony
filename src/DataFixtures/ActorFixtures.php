@@ -4,9 +4,10 @@ namespace App\DataFixtures;
 
 use App\Entity\Actor;
 use Doctrine\Bundle\FixturesBundle\Fixture;
+use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 
-class ActorFixtures extends Fixture
+class ActorFixtures extends Fixture implements DependentFixtureInterface
 {
     public function load(ObjectManager $manager): void
     {
@@ -17,10 +18,19 @@ class ActorFixtures extends Fixture
             $actor = new Actor();
             $actor->setFirstName($firstNames[rand(0, 9)]);
             $actor->setLastName($lastNames[rand(0, 9)]);
+            $actor->setNationalite($this->getReference('nationalite_' . rand(1, 5)));
             $manager->persist($actor);
             $this->addReference('actor_' . $i, $actor);
         }
 
         $manager->flush();
     }
+
+    public function getDependencies(): array
+    {
+        return [
+            NationaliteFixtures::class,
+        ];
+    }
+
 }
