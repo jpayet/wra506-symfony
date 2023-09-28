@@ -2,6 +2,9 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Doctrine\Orm\Filter\RangeFilter;
+use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
+use ApiPlatform\Metadata\ApiFilter;
 use ApiPlatform\Metadata\ApiResource;
 use App\Repository\MovieRepository;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -30,6 +33,7 @@ class Movie
     #[Assert\NotBlank(
         message: 'Le titre est obligatoire'
     )]
+    #[ApiFilter(SearchFilter::class, strategy: 'partial')]
     private ?string $title = null;
 
     #[ORM\Column(length: 255)]
@@ -37,6 +41,7 @@ class Movie
     #[Assert\NotBlank(
         message: 'La description est obligatoire'
     )]
+    #[ApiFilter(SearchFilter::class, strategy: 'partial')]
     private ?string $description = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
@@ -51,6 +56,7 @@ class Movie
     #[Assert\NotBlank(
         message: 'La durée est obligatoire'
     )]
+    #[ApiFilter(RangeFilter::class, strategy: 'partial')]
     private ?int $duration = null;
 
     #[ORM\ManyToOne(inversedBy: 'movies')]
