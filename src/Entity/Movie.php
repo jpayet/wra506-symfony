@@ -25,7 +25,7 @@ class Movie
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups(['movie:read'])]
+    #[Groups(['movie:read', 'actor:read', 'category:read'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
@@ -68,6 +68,9 @@ class Movie
     #[ORM\JoinColumn(nullable: false)]
     #[Groups(['movie:read'])]
     private Collection $actor;
+
+    #[ORM\ManyToOne(inversedBy: 'movies')]
+    private ?User $auteur = null;
 
     public function __construct()
     {
@@ -159,6 +162,18 @@ class Movie
     public function removeActor(Actor $actor): static
     {
         $this->actor->removeElement($actor);
+
+        return $this;
+    }
+
+    public function getAuteur(): ?User
+    {
+        return $this->auteur;
+    }
+
+    public function setAuteur(?User $auteur): static
+    {
+        $this->auteur = $auteur;
 
         return $this;
     }
