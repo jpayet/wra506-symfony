@@ -11,8 +11,8 @@ use Symfony\Component\PasswordHasher\PasswordHasherInterface as PasswordHasherIn
 class UserFixtures extends Fixture
 {
     public function __construct(
-        protected UserPasswordHasherInterface $passwordHasherInterface)
-    {
+        protected UserPasswordHasherInterface $passwordHasherInterface
+    ) {
     }
 
     public function load(ObjectManager $manager): void
@@ -22,12 +22,11 @@ class UserFixtures extends Fixture
             $user->setEmail('email' . $i . '@gmail.com');
             $user->setPassword($this->passwordHasherInterface->hashPassword(
                 $user,
-                'password')
-            );
+                'password'
+            ));
+            $user->setRoles(['ROLE_USER']);
             if ($i == 1) {
                 $user->setRoles(['ROLE_ADMIN']);
-            } else {
-                $user->setRoles(['ROLE_USER']);
             }
             $manager->persist($user);
             $this->addReference('user_' . $i, $user); // "expose" l'objet à l'extérieur de la classe pour les liaisons avec Movie }

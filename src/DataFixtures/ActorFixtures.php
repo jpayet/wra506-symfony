@@ -32,5 +32,4 @@ class ActorFixtures extends Fixture implements DependentFixtureInterface
             NationaliteFixtures::class,
         ];
     }
-
 }
