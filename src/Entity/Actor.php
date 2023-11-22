@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Entity;
 
 use ApiPlatform\Metadata\ApiResource;
@@ -24,7 +23,7 @@ class Actor
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups(['actor:read'])]
+    #[Groups(['actor:read', 'movie:read'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
@@ -45,8 +44,8 @@ class Actor
     #[Groups(['actor:read'])]
     private Collection $movies;
 
-    #[ORM\ManyToOne(cascade: ['persist'], inversedBy: 'actors', )]
-    #[Groups(['actor:read', 'actor:write'])]
+    #[ORM\ManyToOne(cascade: ['persist'], inversedBy: 'actors')]
+    #[Groups(['actor:read','actor:write'])]
     private ?Nationalite $nationalite = null;
 
 
@@ -122,5 +121,4 @@ class Actor
 
         return $this;
     }
-
 }
