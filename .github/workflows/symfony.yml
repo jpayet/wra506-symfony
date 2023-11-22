@@ -3,13 +3,13 @@
 # separate terms of service, privacy policy, and support
 # documentation.
 
-name: Symfony
+name: Symfony + PHP - WR506D
 
 on:
   push:
-    branches: [ "main" ]
+    branches: [ "develop","main" ]
   pull_request:
-    branches: [ "main" ]
+    branches: [ "develop","main" ]
 
 permissions:
   contents: read
@@ -23,7 +23,7 @@ jobs:
     # uses: shivammathur/setup-php@v2
     - uses: shivammathur/setup-php@2cb9b829437ee246e9b3cac53555a39208ca6d28
       with:
-        php-version: '8.1'
+        php-version: '8.2'
     - uses: actions/checkout@v3
     - name: Copy .env.test.local
       run: php -r "file_exists('.env.test.local') || copy('.env.test', '.env.test.local');"
@@ -45,3 +45,15 @@ jobs:
       env:
         DATABASE_URL: sqlite:///%kernel.project_dir%/data/database.sqlite
       run: vendor/bin/phpunit
+      
+    - name: Run PHPUnit
+      run: vendor/bin/phpunit tests/
+
+    #- name: Run PHP_CodeSniffer
+    #  run: vendor/bin/phpcs --standard=PSR2 src/
+
+    #- name: Run PHPStan
+    #  run: vendor/bin/phpstan analyze src/
+
+    #- name: Run PHPMD
+    #  run: vendor/bin/phpmd src/ text cleancode,codesize,controversial,design,naming
