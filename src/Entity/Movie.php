@@ -6,11 +6,12 @@ use ApiPlatform\Doctrine\Orm\Filter\RangeFilter;
 use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
 use ApiPlatform\Metadata\ApiFilter;
 use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Doctrine\Orm\Filter\BooleanFilter;
 use App\Repository\MovieRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
-use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\DBAL\Types\Types;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Serializer\Annotation\Groups;
 
@@ -71,6 +72,11 @@ class Movie
 
     #[ORM\ManyToOne(inversedBy: 'movies')]
     private ?User $auteur = null;
+
+    #[ORM\Column(nullable: true)]
+    #[Groups(['movie:read'])]
+    #[ApiFilter(BooleanFilter::class, properties: ['online'])]
+    private ?bool $online = null;
 
     public function __construct()
     {
@@ -174,6 +180,18 @@ class Movie
     public function setAuteur(?User $auteur): static
     {
         $this->auteur = $auteur;
+
+        return $this;
+    }
+
+    public function isOnline(): ?bool
+    {
+        return $this->online;
+    }
+
+    public function setOnline(?bool $online): static
+    {
+        $this->online = $online;
 
         return $this;
     }
