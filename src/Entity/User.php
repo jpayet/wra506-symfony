@@ -23,14 +23,7 @@ use Symfony\Component\Validator\Constraints as Assert;
     normalizationContext: [
         'groups' => ['auteur:read']
     ],
-    security: "is_granted('ROLE_USER')",
 )]
-#[Get]
-#[GetCollection]
-#[Post(security: "is_granted('ROLE_ADMIN')")]
-#[Put(security: "is_granted('ROLE_ADMIN')")]
-#[Patch(security: "is_granted('ROLE_ADMIN')")]
-#[Delete(security: "is_granted('ROLE_ADMIN')")]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
