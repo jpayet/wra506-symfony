@@ -7,6 +7,12 @@ use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
 use ApiPlatform\Metadata\ApiFilter;
 use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Doctrine\Orm\Filter\BooleanFilter;
+use ApiPlatform\Metadata\Delete;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\Patch;
+use ApiPlatform\Metadata\Post;
+use ApiPlatform\Metadata\Put;
 use App\Repository\MovieRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -15,12 +21,20 @@ use Doctrine\DBAL\Types\Types;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Serializer\Annotation\Groups;
 
+
 #[ORM\Entity(repositoryClass: MovieRepository::class)]
 #[ApiResource(
     normalizationContext: [
         'groups' => ['movie:read']
     ],
+    security: "is_granted('ROLE_USER')",
 )]
+#[Get]
+#[GetCollection]
+#[Post(security: "is_granted('ROLE_ADMIN')")]
+#[Put(security: "is_granted('ROLE_ADMIN')")]
+#[Patch(security: "is_granted('ROLE_ADMIN')")]
+#[Delete(security: "is_granted('ROLE_ADMIN')")]
 class Movie
 {
     #[ORM\Id]
@@ -42,6 +56,12 @@ class Movie
     #[Assert\NotBlank(
         message: 'La description est obligatoire'
     )]
+    #[Assert\Length(
+        min: 5,
+        max: 255,
+        minMessage: 'La description doit faire 5 caractères minimum',
+        maxMessage: 'La description ne doit pas excéder les 255 caractères'
+    )]
     #[ApiFilter(SearchFilter::class, strategy: 'partial')]
     private ?string $description = null;
 
@@ -50,12 +70,17 @@ class Movie
     #[Assert\NotBlank(
         message: 'La date de sortie est obligatoire'
     )]
+    #[Assert\DateTime()]
     private ?\DateTimeInterface $releaseDate = null;
 
     #[ORM\Column]
     #[Groups(['movie:read'])]
     #[Assert\NotBlank(
         message: 'La durée est obligatoire'
+    )]
+    #[Assert\Type(
+        type: 'integer',
+        message: 'La durée entrée "{{ value }}" n\'est pas dans le bon format ({{ type }}).',
     )]
     #[ApiFilter(RangeFilter::class, strategy: 'partial')]
     private ?int $duration = null;

@@ -3,6 +3,12 @@
 namespace App\Entity;
 
 use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Delete;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\Patch;
+use ApiPlatform\Metadata\Post;
+use ApiPlatform\Metadata\Put;
 use App\Repository\CategoryRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -15,7 +21,14 @@ use Symfony\Component\Serializer\Annotation\Groups;
     normalizationContext: [
         'groups' => ['category:read']
     ],
+    security: "is_granted('ROLE_USER')",
 )]
+#[Get]
+#[GetCollection]
+#[Post(security: "is_granted('ROLE_ADMIN')")]
+#[Put(security: "is_granted('ROLE_ADMIN')")]
+#[Patch(security: "is_granted('ROLE_ADMIN')")]
+#[Delete(security: "is_granted('ROLE_ADMIN')")]
 class Category
 {
     #[ORM\Id]
@@ -27,6 +40,10 @@ class Category
     #[ORM\Column(length: 255)]
     #[Assert\NotBlank(
         message: 'Le nom de la catégorie est obligatoire'
+    )]
+    #[Assert\Regex(
+        pattern: "/^[a-zA-Z0-9]+$/",
+        message: "Le nom de la catégorie ne peut contenir que des lettres et des chiffres"
     )]
     #[Groups(['movie:read', 'category:read'])]
     private ?string $name = null;
