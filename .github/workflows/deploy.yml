@@ -1,6 +1,11 @@
 name: Deploy
 
-on: [push]
+on:
+  pull_request:
+    branches:
+      - main
+    types:
+      - closed
 
 jobs:
   build:
@@ -9,7 +14,7 @@ jobs:
     steps:
     - uses: actions/checkout@v1
 
-    - name: Demo LS on VPS
+    - name: Deploy on PR merge to main
       uses: appleboy/ssh-action@master
       with:
         HOST: ${{ secrets.HOST }}
