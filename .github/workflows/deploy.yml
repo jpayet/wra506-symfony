@@ -17,9 +17,9 @@ jobs:
         PORT: ${{ secrets.PORT }}
         KEY: ${{ secrets.SSHKEY }}
         script: |
-          cd public_html/democd/ 
-          git clone git@github.com:******/demo-symfony.git
-          cd demo-symfony
+          cd public_html/
+          git clone git@github.com:jpayet/wra506-symfony.git
+          cd wra506-symfony
           git pull
           composer install
           php bin/console c:c
