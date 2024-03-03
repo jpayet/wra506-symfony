@@ -103,6 +103,9 @@ class Movie
     #[ApiFilter(BooleanFilter::class, properties: ['online'])]
     private ?bool $online = null;
 
+    #[ORM\OneToOne(inversedBy: 'movie', cascade: ['persist', 'remove'])]
+    private ?MediaObject $Media = null;
+
     public function __construct()
     {
         $this->actor = new ArrayCollection();
@@ -217,6 +220,18 @@ class Movie
     public function setOnline(?bool $online): static
     {
         $this->online = $online;
+
+        return $this;
+    }
+
+    public function getMedia(): ?MediaObject
+    {
+        return $this->Media;
+    }
+
+    public function setMedia(?MediaObject $Media): static
+    {
+        $this->Media = $Media;
 
         return $this;
     }
