@@ -28,6 +28,9 @@ class UserFixtures extends Fixture
             if ($i == 1) {
                 $user->setRoles(['ROLE_ADMIN']);
             }
+            $user->setFrstName('FirstName' . $i);
+            $user->setLastName('LastName' . $i);
+            $user->setUsername('Username' . $i);
             $manager->persist($user);
             $this->addReference('user_' . $i, $user); // "expose" l'objet à l'extérieur de la classe pour les liaisons avec Movie }
         }

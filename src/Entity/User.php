@@ -53,6 +53,15 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[Groups(['auteur:read'])]
     private Collection $movies;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $FrstName = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $LastName = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $Username = null;
+
     public function __construct()
     {
         $this->movies = new ArrayCollection();
@@ -154,6 +163,42 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
                 $movie->setAuteur(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getFrstName(): ?string
+    {
+        return $this->FrstName;
+    }
+
+    public function setFrstName(?string $FrstName): static
+    {
+        $this->FrstName = $FrstName;
+
+        return $this;
+    }
+
+    public function getLastName(): ?string
+    {
+        return $this->LastName;
+    }
+
+    public function setLastName(?string $LastName): static
+    {
+        $this->LastName = $LastName;
+
+        return $this;
+    }
+
+    public function getUsername(): ?string
+    {
+        return $this->Username;
+    }
+
+    public function setUsername(?string $Username): static
+    {
+        $this->Username = $Username;
 
         return $this;
     }
