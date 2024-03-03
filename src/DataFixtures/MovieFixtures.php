@@ -6,20 +6,26 @@ use App\Entity\Movie;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
-use DateTime;
+use Faker\Factory;
+use Xylis\FakerCinema\Provider\Movie as MovieProvider;
 
 class MovieFixtures extends Fixture implements DependentFixtureInterface
 {
     public function load(ObjectManager $manager): void
     {
+        $faker = Factory::create('fr_FR');
+        $faker->addProvider(new MovieProvider($faker));
+
         foreach (range(1, 40) as $i) {
-            $movie = new Movie();
-            $movie->setTitle('Movie ' . $i);
-            $movie->setReleaseDate(new DateTime());
-            $movie->setDuration(rand(60, 180));
-            $movie->setDescription('Synopsis ' . $i);
-            $movie->setCategory($this->getReference('category_' . rand(1, 5)));
-            $movie->setOnline((bool)rand(0, 1));
+            $movie = (new Movie())
+                ->setTitle($faker->unique()->movie)
+                ->setDescription($faker->text(200))
+                ->setOnline((bool)rand(0, 1))
+                ->setDuration(rand(60, 180))
+                ->setReleaseDate($faker->dateTimeBetween(
+                    "-30 years",
+                ))
+                ->setCategory($this->getReference('category_' . rand(1, 5)));
             //Ajoute entre 2 et 6 acteurs dans le film, tous différents en se basant sur les fixtures
             $actors = [];
             foreach (range(1, rand(2, 6)) as $j) {
