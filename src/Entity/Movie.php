@@ -27,6 +27,9 @@ use Symfony\Component\Serializer\Annotation\Groups;
     normalizationContext: [
         'groups' => ['movie:read']
     ],
+    denormalizationContext: [
+        'groups' => ['movie:write'],
+    ],
     security: "is_granted('ROLE_USER')",
 )]
 #[Get]
@@ -44,7 +47,7 @@ class Movie
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups(['movie:read', 'actor:read', 'category:read'])]
+    #[Groups(['movie:read', 'movie:write', 'actor:read', 'category:read'])]
     #[Assert\NotBlank(
         message: 'Le titre est obligatoire'
     )]
@@ -52,7 +55,7 @@ class Movie
     private ?string $title = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups(['movie:read'])]
+    #[Groups(['movie:read', 'movie:write'])]
     #[Assert\NotBlank(
         message: 'La description est obligatoire'
     )]
@@ -76,7 +79,7 @@ class Movie
     private ?string $releaseDate = null;
 
     #[ORM\Column]
-    #[Groups(['movie:read'])]
+    #[Groups(['movie:read', 'movie:write'])]
     #[Assert\NotBlank(
         message: 'La durée est obligatoire'
     )]
@@ -89,12 +92,12 @@ class Movie
 
     #[ORM\ManyToOne(inversedBy: 'movies')]
     #[ORM\JoinColumn(nullable: false)]
-    #[Groups(['movie:read'])]
+    #[Groups(['movie:read', 'movie:write'])]
     private ?Category $category = null;
 
-    #[ORM\ManyToMany(targetEntity: Actor::class, inversedBy: 'movies')]
+    #[ORM\ManyToMany(targetEntity: Actor::class, inversedBy: 'movies', cascade: ['persist', 'remove'])]
     #[ORM\JoinColumn(nullable: false)]
-    #[Groups(['movie:read'])]
+    #[Groups(['movie:read', 'movie:write'])]
     private Collection $actor;
 
     #[ORM\ManyToOne(inversedBy: 'movies')]

@@ -63,7 +63,7 @@ class Actor
     private ?string $lastName = null;
 
     #[ORM\ManyToMany(targetEntity: Movie::class, mappedBy: 'actor')]
-    #[Groups(['actor:read'])]
+    #[Groups(['actor:read', 'actor:write'])]
     private Collection $movies;
 
     #[ORM\ManyToOne(cascade: ['persist'], inversedBy: 'actors')]
@@ -71,6 +71,7 @@ class Actor
     private ?Nationalite $nationalite = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
+    #[Groups(['actor:read','actor:write'])]
     private ?\DateTimeInterface $DateOfBirthday = null;
 
 

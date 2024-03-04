@@ -42,13 +42,13 @@ class Category
         message: 'Le nom de la catégorie est obligatoire'
     )]
     #[Assert\Regex(
-        pattern: "/^[a-zA-Z0-9]+$/",
-        message: "Le nom de la catégorie ne peut contenir que des lettres et des chiffres"
+        pattern: "/^[a-zA-Z0-9\-]+$/",
+        message: "Le nom de la catégorie ne peut contenir que des lettres, des chiffres et le caractère '-'."
     )]
     #[Groups(['movie:read', 'category:read'])]
     private ?string $name = null;
 
-    #[ORM\OneToMany(mappedBy: 'category', targetEntity: Movie::class)]
+    #[ORM\OneToMany(mappedBy: 'category', targetEntity: Movie::class, cascade: ['persist', 'remove'])]
     #[Groups(['category:read'])]
     private Collection $movies;
 
