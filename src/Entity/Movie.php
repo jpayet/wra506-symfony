@@ -109,6 +109,7 @@ class Movie
     private ?bool $online = null;
 
     #[ORM\OneToOne(inversedBy: 'movie', cascade: ['persist', 'remove'])]
+    #[Groups(['movie:read', 'movie:write'])]
     private ?MediaObject $Media = null;
 
     public function __construct()
@@ -157,7 +158,7 @@ class Movie
         return $this;
     }
 
-    public function getDuration(): ?string
+    public function getDuration(): ?int
     {
         return $this->duration;
     }
