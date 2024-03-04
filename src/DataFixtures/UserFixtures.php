@@ -19,7 +19,7 @@ class UserFixtures extends Fixture
     {
         foreach (range(1, 6) as $i) {
             $user = new User();
-            $user->setEmail('email' . $i . '@gmail.com');
+            $user->setEmail('user' . $i . '@gmail.com');
             $user->setPassword($this->passwordHasherInterface->hashPassword(
                 $user,
                 'password'
@@ -28,7 +28,7 @@ class UserFixtures extends Fixture
             if ($i == 1) {
                 $user->setRoles(['ROLE_ADMIN']);
             }
-            $user->setFrstName('FirstName' . $i);
+            $user->setFirstName('FirstName' . $i);
             $user->setLastName('LastName' . $i);
             $user->setUsername('Username' . $i);
             $manager->persist($user);
