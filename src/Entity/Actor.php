@@ -11,6 +11,7 @@ use ApiPlatform\Metadata\Put;
 use App\Repository\ActorRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Serializer\Annotation\Groups;
@@ -62,12 +63,16 @@ class Actor
     private ?string $lastName = null;
 
     #[ORM\ManyToMany(targetEntity: Movie::class, mappedBy: 'actor')]
-    #[Groups(['actor:read'])]
+    #[Groups(['actor:read', 'actor:write'])]
     private Collection $movies;
 
     #[ORM\ManyToOne(cascade: ['persist'], inversedBy: 'actors')]
     #[Groups(['actor:read','actor:write'])]
     private ?Nationalite $nationalite = null;
+
+    #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
+    #[Groups(['actor:read','actor:write'])]
+    private ?\DateTimeInterface $DateOfBirthday = null;
 
 
     public function __construct()
@@ -139,6 +144,18 @@ class Actor
     public function setNationalite(?Nationalite $nationalite): static
     {
         $this->nationalite = $nationalite;
+
+        return $this;
+    }
+
+    public function getDateOfBirthday(): ?\DateTimeInterface
+    {
+        return $this->DateOfBirthday;
+    }
+
+    public function setDateOfBirthday(?\DateTimeInterface $DateOfBirthday): static
+    {
+        $this->DateOfBirthday = $DateOfBirthday;
 
         return $this;
     }

@@ -58,9 +58,14 @@ class MediaObject
 
     #[Vich\UploadableField(mapping: "media_object", fileNameProperty: "filePath")]
     #[Assert\NotNull(groups: ['media_object_create'])]
+    #[Assert\File(
+        mimeTypes: ['image/jpeg', 'image/png', 'image/gif'],
+        mimeTypesMessage: 'Vous devez upoader une image au format jpg, png ou gif',
+    )]
     public ?File $file = null;
 
     #[ORM\Column(nullable: true)]
+    #[Groups(['media_object:read'])]
     public ?string $filePath = null;
 
     #[ORM\OneToOne(mappedBy: 'Media', cascade: ['persist', 'remove'])]
@@ -90,6 +95,28 @@ class MediaObject
 
         $this->movie = $movie;
 
+        return $this;
+    }
+
+    public function getFile(): ?File
+    {
+        return $this->file;
+    }
+
+    public function setFile(?File $file): MediaObject
+    {
+        $this->file = $file;
+        return $this;
+    }
+
+    public function getFilePath(): ?string
+    {
+        return $this->filePath;
+    }
+
+    public function setFilePath(?string $filePath): MediaObject
+    {
+        $this->filePath = $filePath;
         return $this;
     }
 }
