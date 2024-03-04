@@ -22,9 +22,8 @@ class MovieFixtures extends Fixture implements DependentFixtureInterface
                 ->setDescription($faker->text(200))
                 ->setOnline((bool)rand(0, 1))
                 ->setDuration(rand(60, 180))
-                ->setReleaseDate($faker->dateTimeBetween(
-                    "-30 years",
-                ))
+                //Date aléatiore entre 30 ans en arrière et aujourd'hui au format string français
+                ->setReleaseDate($faker->dateTimeBetween('-30 years', 'now')->format('d/m/Y'))
                 ->setCategory($this->getReference('category_' . rand(1, 5)))
                 ->setMedia($this->getReference('mediaObject_movie_' . $i));
             //Ajoute entre 2 et 6 acteurs dans le film, tous différents en se basant sur les fixtures

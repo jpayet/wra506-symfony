@@ -65,13 +65,15 @@ class Movie
     #[ApiFilter(SearchFilter::class, strategy: 'partial')]
     private ?string $description = null;
 
-    #[ORM\Column(type: Types::DATE_MUTABLE)]
-    #[Groups(['movie:read'])]
-    #[Assert\NotBlank(
-        message: 'La date de sortie est obligatoire'
+    #[ORM\Column(length: 255)]
+    #[Groups(['movie:read', 'movie:write'])]
+    #[Assert\Length(
+        min: 10,
+        max: 10,
+        minMessage: 'La date doit être au format JJ/MM/AAAA',
+        maxMessage: 'La date doit être au format JJ/MM/AAAA'
     )]
-    #[Assert\DateTime()]
-    private ?\DateTimeInterface $releaseDate = null;
+    private ?string $releaseDate = null;
 
     #[ORM\Column]
     #[Groups(['movie:read'])]
@@ -140,12 +142,12 @@ class Movie
         return $this;
     }
 
-    public function getReleaseDate(): ?\DateTimeInterface
+    public function getReleaseDate(): ?string
     {
         return $this->releaseDate;
     }
 
-    public function setReleaseDate(\DateTimeInterface $releaseDate): static
+    public function setReleaseDate(string $releaseDate): static
     {
         $this->releaseDate = $releaseDate;
 
