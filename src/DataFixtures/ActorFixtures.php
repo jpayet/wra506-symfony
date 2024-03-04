@@ -11,7 +11,6 @@ class ActorFixtures extends Fixture implements DependentFixtureInterface
 {
     public function load(ObjectManager $manager): void
     {
-        //Liste de 50 rénoms
         $firstNames = ['Jean', 'Paul', 'Jacques', 'Pierre', 'Marie', 'Louise', 'Julie', 'Julien', 'Juliette', 'Julia', 'Sebastien', 'Lucie', 'Antoine', 'Isabelle', 'François', 'Sophie', 'Nicolas', 'Hélène', 'Victor', 'Catherine', 'Alexandre', 'Émilie', 'Louis', 'Charlotte'];
         $lastNames = ['Martin', 'Bernard', 'Thomas', 'Dubois', 'Moreau', 'Simon', 'Laurent', 'Lefevre', 'Leroy', 'Roux', 'Garcia', 'Lopez', 'Fournier', 'Perez', 'Girard', 'Dufour', 'Colin', 'Caron', 'Fontaine', 'Rousseau', 'Vincent', 'Leclerc', 'Lemoine', 'Clement'];
 

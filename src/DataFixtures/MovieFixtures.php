@@ -25,7 +25,8 @@ class MovieFixtures extends Fixture implements DependentFixtureInterface
                 ->setReleaseDate($faker->dateTimeBetween(
                     "-30 years",
                 ))
-                ->setCategory($this->getReference('category_' . rand(1, 5)));
+                ->setCategory($this->getReference('category_' . rand(1, 5)))
+                ->setMedia($this->getReference('mediaObject_movie_' . $i));
             //Ajoute entre 2 et 6 acteurs dans le film, tous différents en se basant sur les fixtures
             $actors = [];
             foreach (range(1, rand(2, 6)) as $j) {
@@ -46,6 +47,7 @@ class MovieFixtures extends Fixture implements DependentFixtureInterface
     {
         return [
             ActorFixtures::class,
+
         ];
     }
 }
