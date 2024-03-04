@@ -109,6 +109,7 @@ class Movie
     private ?bool $online = null;
 
     #[ORM\OneToOne(inversedBy: 'movie', cascade: ['persist', 'remove'])]
+    #[Groups(['movie:read', 'movie:write'])]
     private ?MediaObject $Media = null;
 
     public function __construct()

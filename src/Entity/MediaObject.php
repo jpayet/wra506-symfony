@@ -53,7 +53,7 @@ class MediaObject
     private ?int $id = null;
 
     #[ApiProperty(types: ['https://schema.org/contentUrl'])]
-    #[Groups(['media_object:read'])]
+    #[Groups(['media_object:read', 'movie:read'])]
     public ?string $contentUrl = null;
 
     #[Vich\UploadableField(mapping: "media_object", fileNameProperty: "filePath")]
@@ -65,7 +65,7 @@ class MediaObject
     public ?File $file = null;
 
     #[ORM\Column(nullable: true)]
-    #[Groups(['media_object:read'])]
+    #[Groups(['media_object:read', 'media_object:read'])]
     public ?string $filePath = null;
 
     #[ORM\OneToOne(mappedBy: 'Media', cascade: ['persist', 'remove'])]
