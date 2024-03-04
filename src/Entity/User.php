@@ -61,10 +61,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[Groups(['auteur:read'])]
     private ?string $LastName = null;
 
-    #[ORM\Column(length: 255, nullable: true)]
-    #[Groups(['auteur:read'])]
-    private ?string $Username = null;
-
     public function __construct()
     {
         $this->movies = new ArrayCollection();
@@ -190,18 +186,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setLastName(?string $LastName): static
     {
         $this->LastName = $LastName;
-
-        return $this;
-    }
-
-    public function getUsername(): ?string
-    {
-        return $this->Username;
-    }
-
-    public function setUsername(?string $Username): static
-    {
-        $this->Username = $Username;
 
         return $this;
     }
