@@ -30,6 +30,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
     denormalizationContext: [
         'groups' => ['movie:write'],
     ],
+    paginationClientEnabled: true,
     security: "is_granted('ROLE_USER')",
 )]
 #[Get]
