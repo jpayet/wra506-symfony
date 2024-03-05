@@ -23,7 +23,7 @@ final class MediaObjectNormalizer implements NormalizerAwareInterface, Normalize
     {
         $context[self::ALREADY_CALLED] = true;
 
-        $object->contentUrl = 'http://localhost:8088/wra506' . $this->storage->resolveUri($object, 'file');
+        $object->contentUrl = 'https://movieapi.jean-francoispayet.fr' . $this->storage->resolveUri($object, 'file');
 
         return $this->normalizer->normalize($object, $format, $context);
     }
